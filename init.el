@@ -32,6 +32,19 @@
 (leaf leaf-tree :ensure t)
 
 
+(leaf all-the-icons
+  :ensure t
+  :if window-system)
+
+(leaf auto-highlight-symbol
+  :ensure t
+  :custom
+  (global-auto-highlight-symbol-mode . t))
+
+(leaf color-identifiers-mode
+  :ensure t
+  :hook (after-init-hook . global-color-identifiers-mode))
+
 (leaf company
   :ensure t
   :custom
@@ -46,7 +59,8 @@
    (after-init-hook . global-company-mode)))
 
 (leaf doom-modeline
-  :ensure t)
+  :ensure t
+  :hook (after-init-hook))
 
 (leaf doom-themes
   :ensure t
@@ -60,13 +74,25 @@
 (leaf gitignore-templates
   :ensure t)
 
+(leaf nyan-mode
+  :ensure t
+  :after doom-modeline
+  :custom ((nyan-animate-nyancat . t)
+	   (nyan-wavy-trail . t))
+  :hook (doom-modeline-mode-hook))
+
 (leaf paredit
   :ensure t
-  :hook ((emacs-lisp-mode-hook lisp-interaction-mode-hook . enable-paredit-mode)))
+  :commands enable-paredit-mode
+  :hook ((emacs-lisp-mode-hook . enable-paredit-mode)
+	 (lisp-interaction-mode-hook . enable-paredit-mode)))
 
+(leaf rainbow-delimiters
+  :ensure t
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
 
-
-
+(leaf ssh-config-mode
+  :ensure t)
 
 
 
