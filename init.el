@@ -27,6 +27,9 @@
     (leaf-keywords-init)))
 
 (leaf cus-edit :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
+(leaf cus-start :custom '((global-display-line-numbers-mode . t)
+			  (size-indication-mode . t)
+			  (tool-bar-mode . nil)))
 
 (leaf leaf-convert :ensure t)
 (leaf leaf-tree :ensure t)
@@ -35,6 +38,9 @@
 (leaf all-the-icons
   :ensure t
   :if window-system)
+
+(leaf aozora-view
+  :ensure t)
 
 (leaf auto-highlight-symbol
   :ensure t
@@ -58,8 +64,12 @@
   ((after-init-hook . company-tng-mode)
    (after-init-hook . global-company-mode)))
 
+(leaf dashboard
+  :ensure t)
+
 (leaf doom-modeline
   :ensure t
+  :custom ((doom-modeline-buffer-file-name-style . 'relative-from-project))
   :hook (after-init-hook))
 
 (leaf doom-themes
@@ -74,6 +84,14 @@
 (leaf gitignore-templates
   :ensure t)
 
+(leaf highlight-indent-guides
+  :ensure t
+  :hook (prog-mode-hook))
+
+(leaf highlight-numbers
+  :ensure t
+  :hook (prog-mode-hook))
+
 (leaf nyan-mode
   :ensure t
   :after doom-modeline
@@ -81,18 +99,24 @@
 	   (nyan-wavy-trail . t))
   :hook (doom-modeline-mode-hook))
 
+(leaf org
+  :ensure t)
+
 (leaf paredit
   :ensure t
   :commands enable-paredit-mode
+  :custom
+  (show-paren-mode . t)
   :hook ((emacs-lisp-mode-hook . enable-paredit-mode)
 	 (lisp-interaction-mode-hook . enable-paredit-mode)))
 
 (leaf rainbow-delimiters
   :ensure t
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
+  :hook (prog-mode-hook))
 
 (leaf ssh-config-mode
-  :ensure t)
+  :ensure t
+  :mode ("/path-to-your-ssh/config\\$"))
 
 
 
@@ -102,5 +126,8 @@
 (setq auto-save-default nil)
 (setq auto-save-list-file-prefix nil)
 (setq create-lockfiles nil)
+(setq frame-title-format "%f")
+(setq inhibit-startup-message t)
+(setq initial-scratch-message "")
 (setq make-backup-files nil)
 
