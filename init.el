@@ -64,8 +64,21 @@
   ((after-init-hook . company-tng-mode)
    (after-init-hook . global-company-mode)))
 
+(leaf company-box
+  :ensure t
+  :after company
+  :hook (company-mode . company-box-mode))
+
 (leaf dashboard
-  :ensure t)
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  :custom
+  (dashboard-after-initialize-hook . (lambda ()
+				       (with-current-buffer "dashboard*"
+					 (emacs-lock-mode 'kill))))
+  (dashboard-banner-log-title . "emacs")
+  (dashboard-startup-banner . "~/.emacs.d/text.txt"))
 
 (leaf doom-modeline
   :ensure t
@@ -92,6 +105,16 @@
   :ensure t
   :hook (prog-mode-hook))
 
+(leaf ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  :custom (ivy-use-virtual-buffers . t))
+
+(leaf ivy-yasnippet
+  :ensure t
+  :after (yasnippet ivy))
+
 (leaf nyan-mode
   :ensure t
   :after doom-modeline
@@ -102,6 +125,9 @@
 (leaf org
   :ensure t)
 
+(leaf page-break-lines
+  :ensure t)
+
 (leaf paredit
   :ensure t
   :commands enable-paredit-mode
@@ -109,6 +135,9 @@
   (show-paren-mode . t)
   :hook ((emacs-lisp-mode-hook . enable-paredit-mode)
 	 (lisp-interaction-mode-hook . enable-paredit-mode)))
+
+(leaf projectile
+  :ensure t)
 
 (leaf rainbow-delimiters
   :ensure t
@@ -118,9 +147,20 @@
   :ensure t
   :mode ("/path-to-your-ssh/config\\$"))
 
+(leaf yasnippet
+  :ensure t
+  :init (yas-global-mode 1))
+
+(leaf yasnippet-snippets
+  :ensure t)
 
 
-
+(if (boundp 'window-system)
+    (setq default-frame-alist
+          (append (list
+                   '(height . 35)
+                   '(width . 150))
+                  default-frame-alist)))
 
 
 (setq auto-save-default nil)
@@ -131,3 +171,5 @@
 (setq initial-scratch-message "")
 (setq make-backup-files nil)
 
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
